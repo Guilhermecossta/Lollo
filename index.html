@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lollo — Chocolate Fofinho e Cremoso</title>
+  <link rel="shortcut icon" href="Gemini_Generated_Image_c1rc50c1rc50c1rc-removebg-preview.png" type="image/x-icon">
+  <style>
+    :root {
+      --lollo-blue-deep: #0066C0;
+      --lollo-blue: #0077D6;
+      --lollo-blue-light: #00A2FF;
+      --lollo-yellow: #FFD400;
+      --lollo-yellow-soft: #FFE65C;
+      --lollo-orange: #F36F21;
+      --lollo-red: #E0201A;
+      --lollo-red-3d: #B8140E;
+      --lollo-brown: #8C4026;
+      --ink: #1A1512;
+      --white: #FFFFFF;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    html::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      font-family: "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: linear-gradient(160deg, var(--lollo-blue-light) 0%, var(--lollo-blue) 52%, var(--lollo-blue-deep) 100%);
+      color: var(--white);
+      min-height: 480vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Palco fixo principal */
+    .stage {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 50% 46%, rgba(130, 218, 255, 0.45) 0%, rgba(0, 162, 255, 0.18) 38%, rgba(0, 102, 192, 0.55) 100%),
+        linear-gradient(165deg, var(--lollo-blue-light) 0%, var(--lollo-blue) 55%, var(--lollo-blue-deep) 100%);
+    }
+
+    /* Brilho radial central */
+    .radial-glow {
+      position: absolute;
+      width: min(115vw, 960px);
+      height: min(115vw, 960px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0%, rgba(164, 232, 255, 0.12) 45%, transparent 72%);
+      pointer-events: none;
+      z-index: 1;
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+    }
+
+    /* Nuvens suaves no fundo */
+    .clouds-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .cloud {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      filter: blur(1px);
+      will-change: transform;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .cloud-1 {
+      width: 190px;
+      height: 54px;
+      top: 14%;
+      left: -220px;
+      animation: driftCloudRight 42s linear infinite;
+    }
+    .cloud-1::before {
+      width: 82px;
+      height: 82px;
+      top: -38px;
+      left: 28px;
+    }
+    .cloud-1::after {
+      width: 64px;
+      height: 64px;
+      top: -26px;
+      left: 88px;
+    }
+
+    .cloud-2 {
+      width: 240px;
+      height: 64px;
+      top: 30%;
+      right: -260px;
+      opacity: 0.85;
+      animation: driftCloudLeft 54s linear infinite;
+    }
+    .cloud-2::before {
+      width: 98px;
+      height: 98px;
+      top: -46px;
+      left: 44px;
+    }
+    .cloud-2::after {
+      width: 74px;
+      height: 74px;
+      top: -30px;
+      left: 118px;
+    }
+
+    .cloud-3 {
+      width: 160px;
+      height: 46px;
+      bottom: 18%;
+      left: -190px;
+      opacity: 0.72;
+      animation: driftCloudRight 48s linear infinite -18s;
+    }
+    .cloud-3::before {
+      width: 68px;
+      height: 68px;
+      top: -30px;
+      left: 24px;
+    }
+    .cloud-3::after {
+      width: 54px;
+      height: 54px;
+      top: -22px;
+      left: 74px;
+    }
+
+    @keyframes driftCloudRight {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(calc(100vw + 320px), 0, 0); }
+    }
+
+    @keyframes driftCloudLeft {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(calc(-100vw - 360px), 0, 0); }
+    }
+
+    /* Camada das 12 florzinhas retrô flutuantes em parallax */
+    .flowers-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 12;
+      overflow: hidden;
+    }
+
+    .floating-flower {
+      position: absolute;
+      opacity: 0;
+      transform: translate3d(0, 40px, 0) scale(0.3);
+      will-change: transform, opacity;
+      filter: drop-shadow(0 6px 12px rgba(0, 45, 95, 0.28));
+    }
+
+    /* Conjunto central */
+    .center-composition {
+      position: relative;
+      width: min(92vw, 560px);
+      height: min(76vh, 460px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    /* Vaquinha amarela atrás da logo */
+    .cow-mascot {
+      position: absolute;
+      bottom: 34%;
+      width: clamp(235px, 48vw, 330px);
+      z-index: 18;
+      opacity: 0;
+      transform-origin: 55% 85%;
+      transform: translate3d(0, 95px, 0) scale(0.55);
+      will-change: transform, opacity;
+      filter: drop-shadow(0 12px 22px rgba(0, 38, 82, 0.36));
+    }
+
+    .cow-sway {
+      width: 100%;
+      height: 100%;
+      transform-origin: 55% 85%;
+    }
+
+    .cow-mascot.is-visible .cow-sway {
+      animation: cowGentleSway 3.8s ease-in-out infinite;
+    }
+
+    @keyframes cowGentleSway {
+      0%, 100% { transform: rotate(-1.6deg) translateY(0px); }
+      50% { transform: rotate(1.8deg) translateY(-4px); }
+    }
+
+    /* Logo Lollo sempre no topo das camadas centrais */
+    .lollo-brand-logo {
+      position: relative;
+      z-index: 35;
+      width: clamp(240px, 60vw, 400px);
+      transform-origin: center center;
+      transform: translate3d(0, 0, 0) scale(1);
+      will-change: transform;
+      filter: drop-shadow(0 12px 22px rgba(0, 38, 84, 0.42));
+    }
+
+    .lollo-logo-float {
+      width: 100%;
+      height: 100%;
+      animation: logoGentleFloat 4.2s ease-in-out infinite;
+    }
+
+    @keyframes logoGentleFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* Dica discreta no topo/rodapé inicial */
+    .scroll-hint {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translate3d(-50%, 0, 0);
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: #FFFFFF;
+      text-shadow: 0 2px 8px rgba(0, 44, 96, 0.5);
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      will-change: transform, opacity;
+    }
+
+    .scroll-hint-arrow {
+      font-size: 1.05rem;
+      line-height: 1;
+      animation: hintBounce 1.4s ease-in-out infinite;
+    }
+
+    @keyframes hintBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+
+    /* Ato 4: Camada da História do Chocolate Lollo (por trás da embalagem) */
+    .story-backdrop {
+      position: absolute;
+      z-index: 22;
+      width: min(92vw, 660px);
+      padding: clamp(22px, 4vw, 34px) clamp(22px, 4.5vw, 40px) clamp(76px, 12vw, 108px);
+      border-radius: 28px;
+      background: linear-gradient(155deg, rgba(0, 52, 114, 0.84) 0%, rgba(0, 82, 168, 0.78) 100%);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 2px solid rgba(255, 224, 102, 0.52);
+      box-shadow:
+        0 26px 56px rgba(0, 28, 68, 0.52),
+        inset 0 1px 0 rgba(255, 255, 255, 0.28);
+      color: #FFFDF8;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate3d(0, 70px, 0) scale(0.92);
+      will-change: transform, opacity;
+    }
+
+    .story-badge {
+      display: inline-block;
+      padding: 5px 14px;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      background: rgba(255, 212, 0, 0.18);
+      border: 1px solid rgba(255, 212, 0, 0.65);
+      color: #FFE66D;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .story-title {
+      font-size: clamp(1.32rem, 3.2vw, 1.85rem);
+      font-weight: 900;
+      line-height: 1.18;
+      margin-bottom: 12px;
+      color: #FFFFFF;
+      text-shadow: 0 2px 10px rgba(0, 32, 76, 0.45);
+    }
+
+    .story-title span {
+      color: #FFD400;
+    }
+
+    .story-text {
+      font-size: clamp(0.88rem, 1.8vw, 1.02rem);
+      line-height: 1.62;
+      color: rgba(255, 253, 248, 0.94);
+      font-weight: 500;
+    }
+
+    .story-text strong {
+      color: #FFE66D;
+      font-weight: 800;
+    }
+
+    .story-timeline {
+      display: flex;
+      justify-content: center;
+      gap: clamp(10px, 2.5vw, 22px);
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .timeline-pill {
+      background: rgba(255, 255, 255, 0.11);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 14px;
+      padding: 7px 13px;
+      font-size: 0.78rem;
+      line-height: 1.25;
+      color: #FFFFFF;
+    }
+
+    .timeline-pill b {
+      display: block;
+      color: #FFD400;
+      font-size: 0.9rem;
+    }
+
+    /* Ato 4: Embalagem Lollo 28g em destaque à frente do card de história */
+    .wrapper-showcase {
+      position: absolute;
+      z-index: 38;
+      width: min(94vw, 560px);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate3d(0, 185px, 0) scale(0.84) rotate(-3deg);
+      will-change: transform, opacity;
+      filter: drop-shadow(0 24px 32px rgba(0, 24, 58, 0.58));
+    }
+
+    .wrapper-float {
+      width: 100%;
+      animation: wrapperGentleFloat 4.6s ease-in-out infinite;
+    }
+
+    @keyframes wrapperGentleFloat {
+      0%, 100% { transform: translateY(0px) rotate(-1.2deg); }
+      50% { transform: translateY(-7px) rotate(1.1deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <!-- Brilho radial central -->
+    <div class="radial-glow" id="radialGlow" aria-hidden="true"></div>
+
+    <!-- Nuvens brancas suaves -->
+    <div class="clouds-layer" aria-hidden="true">
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="cloud cloud-3"></div>
+    </div>
+
+    <!-- 12 florzinhas retrô flutuantes em parallax -->
+    <div class="flowers-layer" id="flowersLayer" aria-hidden="true"></div>
+
+    <!-- Conjunto central: Vaquinha Amarela atrás + Logo Lollo sempre no topo -->
+    <div class="center-composition" id="centerComposition">
+      <!-- Vaquinha amarela vetorizada -->
+      <div class="cow-mascot" id="cowMascot" aria-label="Vaquinha amarela Lollo">
+        <div class="cow-sway">
+          <svg viewBox="0 0 420 340" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <!-- Florzinha superior direita -->
+            <g transform="translate(318, 178) scale(0.72)">
+              <path d="M0,-28 C11,-28 17,-18 13,-9 C22,-13 31,-5 27,6 C24,15 13,17 6,11 C11,20 4,30 -7,28 C-17,26 -20,15 -14,8 C-23,12 -32,4 -29,-7 C-26,-16 -15,-18 -8,-12 C-12,-21 -5,-28 0,-28 Z"
+                    fill="#F25C78" stroke="#1A1512" stroke-width="5.2" stroke-linejoin="round"/>
+              <circle cx="0" cy="0" r="10.5" fill="#FFFFFF" stroke="#1A1512" stroke-width="4.5"/>
+            </g>
+
+            <!-- Florzinha inferior direita -->
+            <g transform="translate(262, 232) scale(0.64)">
+              <path d="M0,-28 C11,-28 17,-18 13,-9 C22,-13 31,-5 27,6 C24,15 13,17 6,11 C11,20 4,30 -7,28 C-17,26 -20,15 -14,8 C-23,12 -32,4 -29,-7 C-26,-16 -15,-18 -8,-12 C-12,-21 -5,-28 0,-28 Z"
+                    fill="#F36F21" stroke="#1A1512" stroke-width="5.4" stroke-linejoin="round"/>
+              <circle cx="0" cy="0" r="10.5" fill="#FFFFFF" stroke="#1A1512" stroke-width="4.5"/>
+            </g>
+
+            <!-- Florzinha rosa claro à esquerda -->
+            <g transform="translate(66, 194) scale(0.68)">
+              <path d="M0,-28 C11,-28 17,-18 13,-9 C22,-13 31,-5 27,6 C24,15 13,17 6,11 C11,20 4,30 -7,28 C-17,26 -20,15 -14,8 C-23,12 -32,4 -29,-7 C-26,-16 -15,-18 -8,-12 C-12,-21 -5,-28 0,-28 Z"
+                    fill="#F5A7C4" stroke="#1A1512" stroke-width="5.4" stroke-linejoin="round"/>
+              <circle cx="0" cy="0" r="10.5" fill="#FFFFFF" stroke="#1A1512" stroke-width="4.5"/>
+            </g>
+
+            <!-- Corpo/pescoço amarelo -->
+            <path d="M236,102 L386,144 L386,332 L204,268 Z" fill="#FFD400" stroke="#1A1512" stroke-width="6.5" stroke-linejoin="round"/>
+
+            <!-- Chifre esquerdo -->
+            <path d="M138,76 C122,42 132,20 148,22 C158,23 156,48 162,68 Z" fill="#1A1512" stroke="#1A1512" stroke-width="5" stroke-linejoin="round"/>
+
+            <!-- Chifre direito -->
+            <path d="M276,96 C296,64 294,40 278,38 C267,37 262,62 254,82 Z" fill="#1A1512" stroke="#1A1512" stroke-width="5" stroke-linejoin="round"/>
+
+            <!-- Orelha esquerda -->
+            <path d="M134,98 C102,92 84,104 88,118 C92,130 118,132 136,120 Z" fill="#FFD400" stroke="#1A1512" stroke-width="6" stroke-linejoin="round"/>
+
+            <!-- Orelha direita -->
+            <path d="M276,122 C308,128 326,144 320,158 C314,170 288,166 272,148 Z" fill="#FFD400" stroke="#1A1512" stroke-width="6" stroke-linejoin="round"/>
+
+            <!-- Cabeça amarela -->
+            <path d="M156,74 C198,64 252,78 276,112 C288,132 276,166 254,192 C232,218 206,238 176,246 C142,254 112,236 114,202 C116,162 138,108 156,74 Z"
+                  fill="#FFD400" stroke="#1A1512" stroke-width="6.5" stroke-linejoin="round"/>
+
+            <!-- Topete bagunçado laranja -->
+            <path d="M152,72 C164,46 196,40 218,54 C236,44 264,54 274,84 L262,118 L242,102 L222,118 L212,96 L186,114 L182,92 L152,106 L160,86 L132,88 Z"
+                  fill="#F36F21" stroke="#1A1512" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- Olho esquerdo com cílios -->
+            <g transform="translate(174, 134) rotate(8)">
+              <ellipse cx="0" cy="0" rx="17" ry="25" fill="#FFFFFF" stroke="#1A1512" stroke-width="5.2"/>
+              <ellipse cx="2" cy="5" rx="12" ry="17" fill="#1A1512"/>
+              <path d="M-18,-6 Q0,-18 18,-6" fill="none" stroke="#1A1512" stroke-width="4.5" stroke-linecap="round"/>
+              <!-- Cílios -->
+              <path d="M-15,-12 L-26,-22" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+              <path d="M-17,-4 L-30,-8" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+              <path d="M-16,4 L-28,6" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+            </g>
+
+            <!-- Olho direito com cílios -->
+            <g transform="translate(228, 144) rotate(12)">
+              <ellipse cx="0" cy="0" rx="17" ry="25" fill="#FFFFFF" stroke="#1A1512" stroke-width="5.2"/>
+              <ellipse cx="2" cy="5" rx="12" ry="17" fill="#1A1512"/>
+              <path d="M-18,-6 Q0,-18 18,-6" fill="none" stroke="#1A1512" stroke-width="4.5" stroke-linecap="round"/>
+              <!-- Cílios -->
+              <path d="M15,-12 L27,-21" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+              <path d="M17,-3 L31,-6" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+              <path d="M16,5 L29,9" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+            </g>
+
+            <!-- Sobrancelhas -->
+            <path d="M162,102 Q176,94 190,104" fill="none" stroke="#1A1512" stroke-width="4.8" stroke-linecap="round"/>
+            <path d="M218,112 Q232,105 245,116" fill="none" stroke="#1A1512" stroke-width="4.8" stroke-linecap="round"/>
+
+            <!-- Caule e folha da florzinha na boca -->
+            <path d="M152,216 L124,238" stroke="#4D5424" stroke-width="6" stroke-linecap="round"/>
+            <path d="M138,228 C134,246 142,262 152,268 C158,254 156,238 146,226 Z"
+                  fill="#4D5424" stroke="#1A1512" stroke-width="4.5" stroke-linejoin="round"/>
+
+            <!-- Focinho marrom sorridente -->
+            <ellipse cx="182" cy="204" rx="68" ry="44" transform="rotate(14 182 204)"
+                     fill="#8C4026" stroke="#1A1512" stroke-width="6.5"/>
+
+            <!-- Narinas -->
+            <ellipse cx="158" cy="188" rx="11" ry="14" transform="rotate(-12 158 188)" fill="#1A1512"/>
+            <ellipse cx="204" cy="200" rx="11" ry="14" transform="rotate(16 204 200)" fill="#1A1512"/>
+
+            <!-- Sorriso -->
+            <path d="M134,208 C148,232 186,242 218,226" fill="none" stroke="#1A1512" stroke-width="5.2" stroke-linecap="round"/>
+            <path d="M130,202 L136,210 L144,205" fill="none" stroke="#1A1512" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M214,220 L220,227 L226,219" fill="none" stroke="#1A1512" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- Florzinha branca com miolo amarelo na boca -->
+            <g transform="translate(114, 244) scale(0.76)">
+              <path d="M0,-28 C11,-28 17,-18 13,-9 C22,-13 31,-5 27,6 C24,15 13,17 6,11 C11,20 4,30 -7,28 C-17,26 -20,15 -14,8 C-23,12 -32,4 -29,-7 C-26,-16 -15,-18 -8,-12 C-12,-21 -5,-28 0,-28 Z"
+                    fill="#FFFFFF" stroke="#1A1512" stroke-width="5.5" stroke-linejoin="round"/>
+              <circle cx="0" cy="0" r="10.5" fill="#FFD400" stroke="#1A1512" stroke-width="4.5"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Logo Lollo retrô vetorizada em alta definição (sempre no topo) -->
+      <div class="lollo-brand-logo" id="lolloBrandLogo">
+        <div class="lollo-logo-float">
+          <svg viewBox="0 0 680 280" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo Lollo">
+            <defs>
+              <!-- Forma composta unificada das letras L-o-l-l-o -->
+              <g id="lollo-wordmark">
+                <!-- Letra L retrô com topo espiralado à esquerda -->
+                <path d="M 134 52 C 88 52 58 84 58 124 C 58 158 82 180 108 180 C 122 180 132 172 136 162 L 136 196 C 136 218 152 232 176 232 L 222 232 C 242 232 256 218 256 200 C 256 182 242 168 222 168 L 200 168 L 200 106 C 200 72 174 52 134 52 Z M 114 134 C 106 134 100 128 100 120 C 100 112 106 106 114 106 C 122 106 128 112 128 120 C 128 128 122 134 114 134 Z" />
+                <!-- Primeiro o -->
+                <path fill-rule="evenodd" d="M 310 104 C 352 104 382 132 382 168 C 382 204 352 232 310 232 C 268 232 238 204 238 168 C 238 132 268 104 310 104 Z M 310 146 C 296 146 286 155 286 168 C 286 181 296 190 310 190 C 324 190 334 181 334 168 C 334 155 324 146 310 146 Z" />
+                <!-- Primeiro l -->
+                <rect x="380" y="50" width="54" height="182" rx="27" />
+                <!-- Segundo l -->
+                <rect x="434" y="50" width="54" height="182" rx="27" />
+                <!-- Segundo o -->
+                <path fill-rule="evenodd" d="M 556 104 C 598 104 628 132 628 168 C 628 204 598 232 556 232 C 514 232 484 204 484 168 C 484 132 514 104 556 104 Z M 556 146 C 542 146 532 155 532 168 C 532 181 542 190 556 190 C 570 190 580 181 580 168 C 580 155 570 146 556 146 Z" />
+              </g>
+            </defs>
+
+            <!-- Extrusão 3D sólida deslocada para baixo e para a esquerda -->
+            <g fill="#D91E18" stroke="#D91E18" stroke-width="18" stroke-linejoin="round" stroke-linecap="round">
+              <use href="#lollo-wordmark" x="-16" y="18" />
+              <use href="#lollo-wordmark" x="-12" y="14" />
+              <use href="#lollo-wordmark" x="-8" y="9" />
+              <use href="#lollo-wordmark" x="-4" y="5" />
+            </g>
+
+            <!-- Contorno vermelho intenso -->
+            <use href="#lollo-wordmark" fill="#E0201A" stroke="#E0201A" stroke-width="18" stroke-linejoin="round" stroke-linecap="round" />
+
+            <!-- Preenchimento branco nítido em primeiro plano -->
+            <use href="#lollo-wordmark" fill="#FFFFFF" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dica discreta inicial -->
+    <div class="scroll-hint" id="scrollHint">
+      <span>Role para descobrir</span>
+      <span class="scroll-hint-arrow">↓</span>
+    </div>
+
+    <!-- Ato 4 (Camada de fundo): História do Chocolate Lollo -->
+    <article class="story-backdrop" id="storyBackdrop" aria-label="História do Chocolate Lollo">
+      <div class="story-badge">Clássico Brasileiro • Desde 1982</div>
+      <h2 class="story-title">A História do <span>Chocolate Lollo</span></h2>
+      <p class="story-text">
+        Lançado pela Nestlé no Brasil em <strong>1982</strong> como <em>“o chocolate mais fofinho”</em>, o Lollo conquistou gerações com seu recheio aerado e macio de <strong>leite maltado</strong> envolto em chocolate ao leite. Nos anos 1990 chegou a ser rebatizado como Milkybar, mas após anos de pedidos nostálgicos dos fãs brasileiros, voltou triunfante em <strong>2012</strong> com sua embalagem azul icônica, a vaquinha amarela de florzinha e o sabor inesquecível.
+      </p>
+      <div class="story-timeline" aria-hidden="true">
+        <div class="timeline-pill"><b>1982</b>Lançamento no Brasil</div>
+        <div class="timeline-pill"><b>Leite Maltado</b>Recheio macio exclusivo</div>
+        <div class="timeline-pill"><b>2012</b>O grande retorno</div>
+      </div>
+    </article>
+
+    <!-- Ato 4 (Camada da frente): Pacote Chocolate Lollo 28g vetorizado em alta definição -->
+    <div class="wrapper-showcase" id="wrapperShowcase" role="img" aria-label="Embalagem Bombom Chocolate Recheio Leite Maltado Lollo 28g">
+      <div class="wrapper-float">
+        <svg viewBox="0 0 920 310" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Gradiente azul acetinado principal da embalagem -->
+            <linearGradient id="packBlueMain" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#0088DF" />
+              <stop offset="16%" stop-color="#22B4FF" />
+              <stop offset="34%" stop-color="#0095EB" />
+              <stop offset="72%" stop-color="#0080D4" />
+              <stop offset="90%" stop-color="#0066B2" />
+              <stop offset="100%" stop-color="#005296" />
+            </linearGradient>
+
+            <!-- Brilho especular horizontal do filme plástico -->
+            <linearGradient id="packSheen" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.34" />
+              <stop offset="8%" stop-color="#FFFFFF" stop-opacity="0.06" />
+              <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.16" />
+              <stop offset="92%" stop-color="#FFFFFF" stop-opacity="0.06" />
+              <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.34" />
+            </linearGradient>
+
+            <!-- Gradiente das abas seladas nas pontas -->
+            <linearGradient id="crimpGradLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#4AC5FF" />
+              <stop offset="45%" stop-color="#008CE0" />
+              <stop offset="85%" stop-color="#005EA8" />
+              <stop offset="100%" stop-color="#004987" />
+            </linearGradient>
+
+            <linearGradient id="crimpGradRight" x1="100%" y1="0%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#4AC5FF" />
+              <stop offset="45%" stop-color="#008CE0" />
+              <stop offset="85%" stop-color="#005EA8" />
+              <stop offset="100%" stop-color="#004987" />
+            </linearGradient>
+
+            <!-- Clip do corpo central da embalagem para recortar o pescoço da vaquinha -->
+            <clipPath id="packBodyClip">
+              <path d="M 88 52 C 260 56, 660 56, 832 52 L 832 258 C 660 254, 260 254, 88 258 Z" />
+            </clipPath>
+          </defs>
+
+          <!-- Aba esquerda serrilhada -->
+          <path d="M 24 38 L 32 45 L 24 52 L 32 59 L 24 66 L 32 73 L 24 80 L 32 87 L 24 94 L 32 101 L 24 108 L 32 115 L 24 122 L 32 129 L 24 136 L 32 143 L 24 150 L 32 157 L 24 164 L 32 171 L 24 178 L 32 185 L 24 192 L 32 199 L 24 206 L 32 213 L 24 220 L 32 227 L 24 234 L 32 241 L 24 248 L 32 255 L 24 262 L 32 269 L 24 274 L 90 258 L 90 52 Z"
+                fill="url(#crimpGradLeft)" />
+
+          <!-- Vincos verticais de selagem esquerda -->
+          <g stroke="#004884" stroke-width="1.6" opacity="0.45">
+            <line x1="38" y1="44" x2="38" y2="268" />
+            <line x1="45" y1="45" x2="45" y2="267" />
+            <line x1="52" y1="47" x2="52" y2="265" />
+            <line x1="59" y1="48" x2="59" y2="264" />
+            <line x1="66" y1="50" x2="66" y2="262" />
+          </g>
+          <path d="M 70 50 Q 82 155 70 260" fill="none" stroke="#7AD6FF" stroke-width="3" opacity="0.55" />
+
+          <!-- Aba direita serrilhada -->
+          <path d="M 896 38 L 888 45 L 896 52 L 888 59 L 896 66 L 888 73 L 896 80 L 888 87 L 896 94 L 888 101 L 896 108 L 888 115 L 896 122 L 888 129 L 896 136 L 888 143 L 896 150 L 888 157 L 896 164 L 888 171 L 896 178 L 888 185 L 896 192 L 888 199 L 896 206 L 888 213 L 896 220 L 888 227 L 896 234 L 888 241 L 896 248 L 888 255 L 896 262 L 888 269 L 896 274 L 830 258 L 830 52 Z"
+                fill="url(#crimpGradRight)" />
+
+          <!-- Vincos verticais de selagem direita -->
+          <g stroke="#004884" stroke-width="1.6" opacity="0.45">
+            <line x1="882" y1="44" x2="882" y2="268" />
+            <line x1="875" y1="45" x2="875" y2="267" />
+            <line x1="868" y1="47" x2="868" y2="265" />
+            <line x1="861" y1="48" x2="861" y2="264" />
+            <line x1="854" y1="50" x2="854" y2="262" />
+          </g>
+          <path d="M 850 50 Q 838 155 850 260" fill="none" stroke="#7AD6FF" stroke-width="3" opacity="0.55" />
+
+          <!-- Corpo principal da embalagem azul -->
+          <path d="M 88 52 C 260 56, 660 56, 832 52 L 832 258 C 660 254, 260 254, 88 258 Z"
+                fill="url(#packBlueMain)" />
+
+          <!-- Faixas de reflexo plástico brilhante -->
+          <path d="M 92 68 C 280 72, 640 72, 828 68 L 828 92 C 640 96, 280 96, 92 92 Z"
+                fill="#FFFFFF" opacity="0.22" />
+          <path d="M 92 224 C 280 220, 640 220, 828 224 L 828 242 C 640 238, 280 238, 92 242 Z"
+                fill="#003E78" opacity="0.28" />
+          <rect x="88" y="52" width="744" height="206" fill="url(#packSheen)" />
+
+          <!-- Selo Nestlé vermelho acima da logo Lollo -->
+          <g transform="translate(348, 60)">
+            <path d="M 6 12 C 18 2, 42 2, 54 11 C 68 8, 86 11, 96 18 L 96 42 C 80 51, 22 51, 6 42 Z"
+                  fill="#E0201A" stroke="#FFFFFF" stroke-width="2.2" />
+            <text x="51" y="34" text-anchor="middle" fill="#FFFFFF"
+                  font-family="Trebuchet MS, Arial, sans-serif" font-weight="900" font-size="22" letter-spacing="-0.4">Nestlé</text>
+          </g>
+
+          <!-- Logo Lollo dentro da embalagem (reutilizando #lollo-wordmark) -->
+          <g transform="translate(216, 76) scale(0.62)">
+            <g fill="#D91E18" stroke="#D91E18" stroke-width="18" stroke-linejoin="round" stroke-linecap="round">
+              <use href="#lollo-wordmark" x="-16" y="18" />
+              <use href="#lollo-wordmark" x="-12" y="14" />
+              <use href="#lollo-wordmark" x="-8" y="9" />
+              <use href="#lollo-wordmark" x="-4" y="5" />
+            </g>
+            <use href="#lollo-wordmark" fill="#E0201A" stroke="#E0201A" stroke-width="18" stroke-linejoin="round" stroke-linecap="round" />
+            <use href="#lollo-wordmark" fill="#FFFFFF" />
+          </g>
+
+          <!-- Símbolo ® ao lado do o final -->
+          <g transform="translate(608, 134)">
+            <circle cx="0" cy="0" r="8" fill="none" stroke="#FFFFFF" stroke-width="1.6" />
+            <text x="0" y="3.2" text-anchor="middle" fill="#FFFFFF" font-family="Arial, sans-serif" font-weight="700" font-size="10">R</text>
+          </g>
+
+          <!-- Peso líquido "28 g" no canto inferior esquerdo -->
+          <text x="128" y="236" fill="#FFFFFF" font-family="Trebuchet MS, Arial, sans-serif" font-weight="800" font-size="21" letter-spacing="0.2">28 g</text>
+
+          <!-- Slogan "O CHOCOLATE MAIS FOFINHO" abaixo da logo -->
+          <text x="415" y="237" text-anchor="middle" fill="#FFFFFF" font-family="Trebuchet MS, Arial, sans-serif" font-weight="900" font-size="15.5" letter-spacing="1.8">O CHOCOLATE MAIS FOFINHO</text>
+
+          <!-- Vaquinha amarela com florzinhas no lado direito da embalagem -->
+          <g clip-path="url(#packBodyClip)">
+            <g transform="translate(604, 62) scale(0.58)">
+              <!-- Florzinha superior direita -->
+              <g transform="translate(318, 178) scale(0.72)">
+                <path d="M0,-28 C11,-28 17,-18 13,-9 C22,-13 31,-5 27,6 C24,15 13,17 6,11 C11,20 4,30 -7,28 C-17,26 -20,15 -14,8 C-23,12 -32,4 -29,-7 C-26,-16 -15,-18 -8,-12 C-12,-21 -5,-28 0,-28 Z"
+                      fill="#F25C78" stroke="#1A1512" stroke-width="5.2" stroke-linejoin="round"/>
+                <circle cx="0" cy="0" r="10.5" fill="#FFFFFF" stroke="#1A1512" stroke-width="4.5"/>
+              </g>
+              <!-- Florzinha inferior direita -->
+              <g transform="translate(262, 232) scale(0.64)">
+                <path d="M0,-28 C11,-28 17,-18 13,-9 C22,-13 31,-5 27,6 C24,15 13,17 6,11 C11,20 4,30 -7,28 C-17,26 -20,15 -14,8 C-23,12 -32,4 -29,-7 C-26,-16 -15,-18 -8,-12 C-12,-21 -5,-28 0,-28 Z"
+                      fill="#F36F21" stroke="#1A1512" stroke-width="5.4" stroke-linejoin="round"/>
+                <circle cx="0" cy="0" r="10.5" fill="#FFFFFF" stroke="#1A1512" stroke-width="4.5"/>
+              </g>
+              <!-- Florzinha rosa claro à esquerda -->
+              <g transform="translate(66, 194) scale(0.68)">
+                <path d="M0,-28 C11,-28 17,-18 13,-9 C22,-13 31,-5 27,6 C24,15 13,17 6,11 C11,20 4,30 -7,28 C-17,26 -20,15 -14,8 C-23,12 -32,4 -29,-7 C-26,-16 -15,-18 -8,-12 C-12,-21 -5,-28 0,-28 Z"
+                      fill="#F5A7C4" stroke="#1A1512" stroke-width="5.4" stroke-linejoin="round"/>
+                <circle cx="0" cy="0" r="10.5" fill="#FFFFFF" stroke="#1A1512" stroke-width="4.5"/>
+              </g>
+              <!-- Corpo/pescoço amarelo -->
+              <path d="M236,102 L410,148 L410,360 L204,268 Z" fill="#FFD400" stroke="#1A1512" stroke-width="6.5" stroke-linejoin="round"/>
+              <!-- Chifres -->
+              <path d="M138,76 C122,42 132,20 148,22 C158,23 156,48 162,68 Z" fill="#1A1512" stroke="#1A1512" stroke-width="5" stroke-linejoin="round"/>
+              <path d="M276,96 C296,64 294,40 278,38 C267,37 262,62 254,82 Z" fill="#1A1512" stroke="#1A1512" stroke-width="5" stroke-linejoin="round"/>
+              <!-- Orelhas -->
+              <path d="M134,98 C102,92 84,104 88,118 C92,130 118,132 136,120 Z" fill="#FFD400" stroke="#1A1512" stroke-width="6" stroke-linejoin="round"/>
+              <path d="M276,122 C308,128 326,144 320,158 C314,170 288,166 272,148 Z" fill="#FFD400" stroke="#1A1512" stroke-width="6" stroke-linejoin="round"/>
+              <!-- Cabeça -->
+              <path d="M156,74 C198,64 252,78 276,112 C288,132 276,166 254,192 C232,218 206,238 176,246 C142,254 112,236 114,202 C116,162 138,108 156,74 Z"
+                    fill="#FFD400" stroke="#1A1512" stroke-width="6.5" stroke-linejoin="round"/>
+              <!-- Topete laranja -->
+              <path d="M152,72 C164,46 196,40 218,54 C236,44 264,54 274,84 L262,118 L242,102 L222,118 L212,96 L186,114 L182,92 L152,106 L160,86 L132,88 Z"
+                    fill="#F36F21" stroke="#1A1512" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Olhos -->
+              <g transform="translate(174, 134) rotate(8)">
+                <ellipse cx="0" cy="0" rx="17" ry="25" fill="#FFFFFF" stroke="#1A1512" stroke-width="5.2"/>
+                <ellipse cx="2" cy="5" rx="12" ry="17" fill="#1A1512"/>
+                <path d="M-18,-6 Q0,-18 18,-6" fill="none" stroke="#1A1512" stroke-width="4.5" stroke-linecap="round"/>
+                <path d="M-15,-12 L-26,-22" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+                <path d="M-17,-4 L-30,-8" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+                <path d="M-16,4 L-28,6" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+              </g>
+              <g transform="translate(228, 144) rotate(12)">
+                <ellipse cx="0" cy="0" rx="17" ry="25" fill="#FFFFFF" stroke="#1A1512" stroke-width="5.2"/>
+                <ellipse cx="2" cy="5" rx="12" ry="17" fill="#1A1512"/>
+                <path d="M-18,-6 Q0,-18 18,-6" fill="none" stroke="#1A1512" stroke-width="4.5" stroke-linecap="round"/>
+                <path d="M15,-12 L27,-21" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+                <path d="M17,-3 L31,-6" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+                <path d="M16,5 L29,9" stroke="#1A1512" stroke-width="4.2" stroke-linecap="round"/>
+              </g>
+              <!-- Sobrancelhas -->
+              <path d="M162,102 Q176,94 190,104" fill="none" stroke="#1A1512" stroke-width="4.8" stroke-linecap="round"/>
+              <path d="M218,112 Q232,105 245,116" fill="none" stroke="#1A1512" stroke-width="4.8" stroke-linecap="round"/>
+              <!-- Caule e folha -->
+              <path d="M152,216 L124,238" stroke="#4D5424" stroke-width="6" stroke-linecap="round"/>
+              <path d="M138,228 C134,246 142,262 152,268 C158,254 156,238 146,226 Z"
+                    fill="#4D5424" stroke="#1A1512" stroke-width="4.5" stroke-linejoin="round"/>
+              <!-- Focinho -->
+              <ellipse cx="182" cy="204" rx="68" ry="44" transform="rotate(14 182 204)"
+                       fill="#8C4026" stroke="#1A1512" stroke-width="6.5"/>
+              <ellipse cx="158" cy="188" rx="11" ry="14" transform="rotate(-12 158 188)" fill="#1A1512"/>
+              <ellipse cx="204" cy="200" rx="11" ry="14" transform="rotate(16 204 200)" fill="#1A1512"/>
+              <path d="M134,208 C148,232 186,242 218,226" fill="none" stroke="#1A1512" stroke-width="5.2" stroke-linecap="round"/>
+              <path d="M130,202 L136,210 L144,205" fill="none" stroke="#1A1512" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M214,220 L220,227 L226,219" fill="none" stroke="#1A1512" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Florzinha branca na boca -->
+              <g transform="translate(114, 244) scale(0.76)">
+                <path d="M0,-28 C11,-28 17,-18 13,-9 C22,-13 31,-5 27,6 C24,15 13,17 6,11 C11,20 4,30 -7,28 C-17,26 -20,15 -14,8 C-23,12 -32,4 -29,-7 C-26,-16 -15,-18 -8,-12 C-12,-21 -5,-28 0,-28 Z"
+                      fill="#FFFFFF" stroke="#1A1512" stroke-width="5.5" stroke-linejoin="round"/>
+                <circle cx="0" cy="0" r="10.5" fill="#FFD400" stroke="#1A1512" stroke-width="4.5"/>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const flowersLayer = document.getElementById('flowersLayer');
+      const cowMascot = document.getElementById('cowMascot');
+      const lolloBrandLogo = document.getElementById('lolloBrandLogo');
+      const scrollHint = document.getElementById('scrollHint');
+      const radialGlow = document.getElementById('radialGlow');
+      const storyBackdrop = document.getElementById('storyBackdrop');
+      const wrapperShowcase = document.getElementById('wrapperShowcase');
+
+      // Configuração das 12 florzinhas retrô de 5 pétalas ao redor da composição
+      const flowersData = [
+        { x: 10, y: 16, size: 54, petal: '#F5A7C4', center: '#FFFFFF', rot: -14, speed: 1.15, delay: 0.00 },
+        { x: 86, y: 15, size: 58, petal: '#FFFFFF', center: '#FFD400', rot: 18,  speed: 1.30, delay: 0.05 },
+        { x: 7,  y: 48, size: 62, petal: '#F36F21', center: '#FFFFFF', rot: 12,  speed: 0.95, delay: 0.10 },
+        { x: 89, y: 46, size: 60, petal: '#F25C78', center: '#FFFFFF', rot: -16, speed: 1.25, delay: 0.12 },
+        { x: 12, y: 80, size: 56, petal: '#FFFFFF', center: '#FFD400', rot: 22,  speed: 1.10, delay: 0.16 },
+        { x: 85, y: 81, size: 54, petal: '#F5A7C4', center: '#FFFFFF', rot: -10, speed: 1.35, delay: 0.18 },
+        { x: 25, y: 12, size: 46, petal: '#F25C78', center: '#FFFFFF', rot: 8,   speed: 1.45, delay: 0.22 },
+        { x: 72, y: 11, size: 48, petal: '#F36F21', center: '#FFFFFF', rot: -20, speed: 1.05, delay: 0.25 },
+        { x: 24, y: 86, size: 50, petal: '#F36F21', center: '#FFFFFF', rot: -12, speed: 1.20, delay: 0.28 },
+        { x: 73, y: 85, size: 48, petal: '#FFFFFF', center: '#FFD400', rot: 15,  speed: 1.40, delay: 0.30 },
+        { x: 18, y: 31, size: 42, petal: '#F5A7C4', center: '#FFFFFF', rot: 26,  speed: 1.50, delay: 0.34 },
+        { x: 80, y: 65, size: 44, petal: '#F25C78', center: '#FFFFFF', rot: -24, speed: 1.12, delay: 0.36 }
+      ];
+
+      function createFlowerSVG(petalColor, centerColor) {
+        return `
+          <svg viewBox="-36 -36 72 72" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,-28 C11,-28 17,-18 13,-9 C22,-13 31,-5 27,6 C24,15 13,17 6,11 C11,20 4,30 -7,28 C-17,26 -20,15 -14,8 C-23,12 -32,4 -29,-7 C-26,-16 -15,-18 -8,-12 C-12,-21 -5,-28 0,-28 Z"
+                  fill="${petalColor}" stroke="#1A1512" stroke-width="5.2" stroke-linejoin="round"/>
+            <circle cx="0" cy="0" r="10.5" fill="${centerColor}" stroke="#1A1512" stroke-width="4.5"/>
+          </svg>
+        `;
+      }
+
+      const flowerElements = flowersData.map((item) => {
+        const el = document.createElement('div');
+        el.className = 'floating-flower';
+        el.style.left = `${item.x}%`;
+        el.style.top = `${item.y}%`;
+        el.style.width = `${item.size}px`;
+        el.style.height = `${item.size}px`;
+        el.innerHTML = createFlowerSVG(item.petal, item.center);
+        flowersLayer.appendChild(el);
+        return { el, data: item };
+      });
+
+      function clamp(val, min, max) {
+        return Math.min(Math.max(val, min), max);
+      }
+
+      function easeOutBack(t) {
+        const c1 = 1.45;
+        const c3 = c1 + 1;
+        return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+      }
+
+      function easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+      }
+
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      let latestScrollY = window.scrollY;
+      let ticking = false;
+
+      function updateScene() {
+        const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+        const progress = clamp(latestScrollY / maxScroll, 0, 1);
+
+        // 1. Dica inicial desaparece suavemente logo nos primeiros 8%
+        const hintOpacity = 1 - clamp(progress / 0.08, 0, 1);
+        scrollHint.style.opacity = hintOpacity.toFixed(3);
+        scrollHint.style.transform = `translate3d(-50%, ${progress * 18}px, 0)`;
+
+        // Transição de saída do conjunto inicial (Atos 1–3) entre 58% e 72%
+        const exitRaw = clamp((progress - 0.58) / 0.14, 0, 1);
+        const exitEased = easeInOutCubic(exitRaw);
+        const heroOpacity = 1 - exitEased;
+        const heroExitY = -exitEased * 135;
+
+        // 2. Vaquinha amarela surge por trás da logo entre 12% e 32% do scroll
+        const cowRaw = clamp((progress - 0.12) / 0.20, 0, 1);
+        const cowEased = easeOutBack(cowRaw);
+        const cowOpacity = clamp(cowRaw * 2.2, 0, 1) * heroOpacity;
+        const cowTranslateY = (1 - cowEased) * 105 + heroExitY;
+        const cowScale = (0.56 + cowEased * 0.44) * (1 - exitEased * 0.08);
+
+        cowMascot.style.opacity = cowOpacity.toFixed(3);
+        cowMascot.style.transform = `translate3d(0, ${cowTranslateY.toFixed(1)}px, 0) scale(${cowScale.toFixed(3)})`;
+        if (cowRaw > 0.7 && exitRaw < 0.5) {
+          cowMascot.classList.add('is-visible');
+        } else {
+          cowMascot.classList.remove('is-visible');
+        }
+
+        // Logo Lollo no topo das camadas durante os atos 1 a 3 e sobe suavemente ao sair
+        const logoShiftY = cowEased * 44 + heroExitY;
+        const logoScale = (1 - cowEased * 0.05) * (1 - exitEased * 0.08);
+        lolloBrandLogo.style.opacity = heroOpacity.toFixed(3);
+        lolloBrandLogo.style.transform = `translate3d(0, ${logoShiftY.toFixed(1)}px, 0) scale(${logoScale.toFixed(3)})`;
+
+        // Brilho radial acompanha suavemente
+        radialGlow.style.transform = `translate3d(0, ${(cowEased * -12).toFixed(1)}px, 0) scale(${(1 + progress * 0.12).toFixed(3)})`;
+
+        // 3. Florzinhas retrô flutuam em parallax entre 32% e 55% e dissolvem com a saída do conjunto
+        const flowersStage = clamp((progress - 0.32) / 0.23, 0, 1);
+
+        flowerElements.forEach(({ el, data }, idx) => {
+          const localProgress = clamp((flowersStage - data.delay * 0.55) / (1 - data.delay * 0.45), 0, 1);
+          const eased = easeOutCubic(localProgress);
+          const parallaxOffset = (progress - 0.32) * -65 * data.speed + heroExitY * 0.85;
+          const swayX = Math.sin((progress * Math.PI * 2) + idx) * 8 * eased;
+          const rot = data.rot + (progress * 28 * (idx % 2 === 0 ? 1 : -1));
+          const scale = (0.35 + eased * 0.65) * (1 - exitEased * 0.15);
+
+          el.style.opacity = (eased * heroOpacity).toFixed(3);
+          el.style.transform = `translate3d(${swayX.toFixed(1)}px, ${(36 * (1 - eased) + parallaxOffset).toFixed(1)}px, 0) rotate(${rot.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
+        });
+
+        // 4. Novo Ato 4 (~68% a ~92% do scroll): História por trás + Embalagem Lollo 28g à frente
+        const storyRaw = clamp((progress - 0.68) / 0.20, 0, 1);
+        const storyEased = easeOutCubic(storyRaw);
+        const storyY = -44 + (1 - storyEased) * 72;
+        const storyScale = 0.92 + storyEased * 0.08;
+
+        storyBackdrop.style.opacity = storyEased.toFixed(3);
+        storyBackdrop.style.pointerEvents = storyEased > 0.5 ? 'auto' : 'none';
+        storyBackdrop.style.transform = `translate3d(0, ${storyY.toFixed(1)}px, 0) scale(${storyScale.toFixed(3)})`;
+
+        const wrapperRaw = clamp((progress - 0.72) / 0.20, 0, 1);
+        const wrapperEased = easeOutBack(wrapperRaw);
+        const wrapperOpacity = clamp(wrapperRaw * 2.2, 0, 1);
+        const wrapperY = 148 + (1 - wrapperEased) * 115;
+        const wrapperScale = 0.82 + wrapperEased * 0.18;
+        const wrapperRot = (1 - wrapperEased) * -6;
+
+        wrapperShowcase.style.opacity = wrapperOpacity.toFixed(3);
+        wrapperShowcase.style.transform = `translate3d(0, ${wrapperY.toFixed(1)}px, 0) scale(${wrapperScale.toFixed(3)}) rotate(${wrapperRot.toFixed(2)}deg)`;
+
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        latestScrollY = window.scrollY;
+        if (!ticking) {
+          window.requestAnimationFrame(updateScene);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      window.addEventListener('resize', updateScene, { passive: true });
+      updateScene();
+    })();
+  </script>
+</body>
+</html>
